@@ -8,7 +8,7 @@ bot = commands.Bot(command_prefix="!", owner_id=277981712989028353)
 @bot.event
 async def on_ready():
     print("Bot is online, and READY TO ROLL!")
-    await bot.change_presence(game=discord.Game(name="!apply to apply for the clan."))
+    await bot.change_presence(activity=discord.Game(name="Playing with CrYpT | !apply"))
 
 @bot.event
 async def on_member_join(member):
