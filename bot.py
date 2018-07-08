@@ -66,7 +66,6 @@ async def apply(ctx):
     em.add_field(name="Country", value=country, inline=False)
     em.add_field(name="Town Hall", value=townhall, inline=False)
     em.add_field(name="Known Strategies", value=strategies, inline=False)
-    em.set_image(url=screenshot.url)
     admin = discord.utils.get(ctx.guild.roles, name='ADMIN').mention
     await chan.send(f"{admin}", embed=em)
     emb = discord.Embed(color=ctx.author.color, title="Base Screenshot")
