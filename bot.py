@@ -56,3 +56,22 @@ async def apply(ctx):
     admin = discord.utils.get(ctx.guild.roles, name='ADMIN').mention
     co = discord.utils.get(ctx.guild.roles, name='Co-Leader').mention
     await ctx.send(f"{admin} {co}", embed=em)
+
+    
+    
+@bot.command()
+async def accept(ctx, user: discord.Member):
+    await user.remove_roles(bot.get_guild(327158447399370753).roles, name="Applicant")
+    await user.add_roles(bot.get_guild(327158447399370753).roles, name="Member")
+    await user.send("Congo.. You are selected! Join the clan as soon as possible :wink:")
+    await ctx.send("**{}**has been accepted in to the clan!".format(str(user))) 
+    
+    
+@bot.command()
+async def reject(ctx, user: discord.Member):
+    await user.remove_roles(bot.get_guild(327158447399370753).roles, name="Applicant")
+    await user.send("Sorry, your application was rejected. :cry:")
+    await ctx.send("**{}**has been rejected from the clan.".format(str(user))) 
+    
+    
+bot.run(os.environ.get("TOKEN"))
