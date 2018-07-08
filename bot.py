@@ -54,8 +54,7 @@ async def apply(ctx):
     em.add_field(name="Town Hall", value=townhall, inline=False)
     em.set_image(url=screenshot.url)
     admin = discord.utils.get(ctx.guild.roles, name='ADMIN').mention
-    co = discord.utils.get(ctx.guild.roles, name='Co-Leader').mention
-    await ctx.send(f"{admin} {co}", embed=em)
+    await ctx.send(f"{admin}", embed=em)
 
     
     
