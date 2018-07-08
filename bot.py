@@ -26,12 +26,16 @@ async def apply(ctx):
     try:
         age = int(x.content)
     except ValueError:
-        return await chan.send("Age isn't a valid number.")
+        await chan.send("Age isn't a valid number. Try again (use numbers only!)")
+        x = await bot.wait_for("message", check=lambda x: x.channel == chan and x.author == ctx.author, timeout=60.0)
+        age = int(x.content)
     await chan.send("What gender are you? (Male/Female)")
     x = await bot.wait_for("message", check=lambda x: x.channel == chan and x.author == ctx.author, timeout=60.0)
     gender = x.content.lower()
     if gender not in ("male", "female"):
-        return await chan.send("Invalid gender.")
+        await chan.send("Invalid gender. Try again (only male/female)")
+        x = await bot.wait_for("message", check=lambda x: x.channel == chan and x.author == ctx.author, timeout=60.0)
+        gender = x.content.lower()
     await chan.send("Which country are you from?")
     x = await bot.wait_for("message", check=lambda x: x.channel == chan and x.author == ctx.author, timeout=60.0)
     country = x.content
@@ -40,7 +44,9 @@ async def apply(ctx):
     try:
         townhall = int(x.content.strip("th").strip("TH").strip("Th"))
     except ValueError:
-        return await chan.send("Invalid Town Hall.")
+        await chan.send("Invalid Town Hall. Please reply with a valid number.")
+        x = await bot.wait_for("message", check=lambda x: x.channel == chan and x.author == ctx.author, timeout=60.0)
+        townhall = int(x.content.strip("th").strip("TH").strip("Th"))
     if townhall not in (8,9,10,11,12):
         return await chan.send("Sorry! But we're currently looking for Town Hall 8-12. Come back later :wink:")
     await chan.send("What strategies do you know?")
@@ -51,13 +57,17 @@ async def apply(ctx):
     try:
         screenshot = x.attachments[0]
     except IndexError:
-        return await ctx.send("No screenshot was submitted.")
+        await chan.send("No screenshot was submitted. Try again (only a valid file attachment.)")
+        x = await bot.wait_for("message", check=lambda x: x.channel == chan and x.author == ctx.author, timeout=60.0)
+        screenshot = x.attachments[0]
     await chan.send("Please submit your profile screenshot.")
     x = await bot.wait_for("message", check=lambda x: x.channel == chan and x.author == ctx.author, timeout=60.0)
     try:
         profile = x.attachments[0]
     except IndexError:
-        return await chan.send("No screenshot was submitted.")
+        await chan.send("No screenshot was submitted. Try again (only a valid file attachment.)")
+        x = await bot.wait_for("message", check=lambda x: x.channel == chan and x.author == ctx.author, timeout=60.0)
+        screenshot = x.attachments[0]
     await asyncio.sleep(5)
     em = discord.Embed(color=ctx.author.color, title="New Applicant")
     em.add_field(name="Applicant Name", value=str(ctx.author), inline=False)
