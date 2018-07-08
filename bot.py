@@ -43,6 +43,9 @@ async def apply(ctx):
         return await chan.send("Invalid Town Hall.")
     if townhall not in (8,9,10,11,12):
         return await chan.send("Sorry! But we're currently looking for Town Hall 8-12. Come back later :wink:")
+    await chan.send("What strategies do you know?")
+    x = await bot.wait_for("message", check=lambda x: x.channel == chan and x.author == ctx.author, timeout=60.0)
+    strategies = x.content
     await chan.send("Please submit your base screenshot.")
     x = await bot.wait_for("message", check=lambda x: x.channel == chan and x.author == ctx.author, timeout=60.0)
     try:
@@ -52,7 +55,7 @@ async def apply(ctx):
     await chan.send("Please submit your profile screenshot.")
     x = await bot.wait_for("message", check=lambda x: x.channel == chan and x.author == ctx.author, timeout=60.0)
     try:
-        screenshot = x.attachments[0]
+        profile = x.attachments[0]
     except IndexError:
         return await chan.send("No screenshot was submitted.")
     await asyncio.sleep(5)
@@ -62,9 +65,16 @@ async def apply(ctx):
     em.add_field(name="Gender", value=gender, inline=False)
     em.add_field(name="Country", value=country, inline=False)
     em.add_field(name="Town Hall", value=townhall, inline=False)
+    em.add_field(name="Known Strategies", value=strategies, inline=False)
     em.set_image(url=screenshot.url)
     admin = discord.utils.get(ctx.guild.roles, name='ADMIN').mention
-    await ctx.send(f"{admin}", embed=em)
+    await chan.send(f"{admin}", embed=em)
+    emb = discord.Embed(color=ctx.author.color, title="Base Screenshot")
+    emb.set_image(url=screenshot.url)
+    await chan.send(embed=emb)
+    embed = discord.Embed(color=ctx.author.color, title="Profile Screenshot")
+    embed.set_image(url=profile.url)
+    await chan.send(embed=embed)
 
     
     
