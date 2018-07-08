@@ -21,13 +21,13 @@ async def apply(ctx):
     await ctx.author.add_roles(discord.utils.get(ctx.guild.roles, name="Applicant"))
     await ctx.send("Thanks for showing interest in joining our clan! You have been given the **Applicant** role. Please move to <#327167497369419787> to answer the questions.")
     await asyncio.sleep(2)
-    await chan.send("Question 1: What's your age?")
+    await chan.send("Question 1: What's your age? (Reply through numbers only)")
     x = await bot.wait_for("message", check=lambda x: x.channel == chan and x.author == ctx.author, timeout=60.0)
     try:
         age = int(x.content)
     except ValueError:
         return await chan.send("Age isn't a valid number.")
-    await chan.send("What gender are you?")
+    await chan.send("What gender are you? (Male/Female)")
     x = await bot.wait_for("message", check=lambda x: x.channel == chan and x.author == ctx.author, timeout=60.0)
     gender = x.content.lower()
     if gender not in ("male", "female"):
@@ -38,7 +38,7 @@ async def apply(ctx):
     await chan.send("What Town Hall are you in COC?\nEx: If you're Town Hall 8, reply '8' to the question.")
     x = await bot.wait_for("message", check=lambda x: x.channel == chan and x.author == ctx.author, timeout=60.0)
     try:
-        townhall = int(x.content)
+        townhall = int(x.content.strip("th").strip("TH").strip("Th"))
     except ValueError:
         return await chan.send("Invalid Town Hall.")
     if townhall not in (8,9,10,11,12):
