@@ -35,7 +35,7 @@ async def apply(ctx):
     await chan.send("Which country are you from?")
     x = await bot.wait_for("message", check=lambda x: x.channel == chan and x.author == ctx.author, timeout=60.0)
     country = x.content
-    await chan.send("What Town Hall are you in COC?")
+    await chan.send("What Town Hall are you in COC?\nEx: If you're Town Hall 8, reply '8' to the question.")
     x = await bot.wait_for("message", check=lambda x: x.channel == chan and x.author == ctx.author, timeout=60.0)
     try:
         townhall = int(x.content)
