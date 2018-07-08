@@ -79,7 +79,8 @@ async def apply(ctx):
     
 @bot.command()
 async def accept(ctx, user: discord.Member):
-    if not "ADMIN" in [x.name for x in ctx.author.roles] or not "Co-Leader" in [x.name for x in ctx.author.roles]:
+    check = "ADMIN" in [x.name for x in ctx.author.roles] or "Co-Leader" in [x.name for x in ctx.author.roles]
+    if not check:
         return await ctx.send("Only Co-Leaders/Admins can use this command!")
     await user.remove_roles(discord.utils.get(bot.get_guild(327158447399370753).roles, name="Applicant"))
     await user.add_roles(discord.utils.get(bot.get_guild(327158447399370753).roles, name="Member"))
@@ -89,7 +90,8 @@ async def accept(ctx, user: discord.Member):
     
 @bot.command()
 async def reject(ctx, user: discord.Member):
-    if not "ADMIN" in [x.name for x in ctx.author.roles] or not "Co-Leader" in [x.name for x in ctx.author.roles]:
+    check = "ADMIN" in [x.name for x in ctx.author.roles] or "Co-Leader" in [x.name for x in ctx.author.roles]
+    if not check:
         return await ctx.send("Only Co-Leaders/Admins can use this command!")
     await user.remove_roles(discord.utils.get(bot.get_guild(327158447399370753).roles, name="Applicant"))
     await user.send("Sorry, your application was rejected. :cry:")
