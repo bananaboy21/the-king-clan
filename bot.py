@@ -44,4 +44,15 @@ async def apply(ctx):
         screenshot = x.attachments[0]
     except IndexError:
         return await ctx.send("No screenshot was submitted.")
-    
+    await ctx.author.add_roles(discord.utils.get(ctx.guild.roles, name="Applicant"))
+    await ctx.send("You have been given the **Appplicant** role, which gives you access to the channel <#327167497369419787>. The Admins and Co-Leaders will ask you questions.")
+    em = discord.Embed(color=ctx.author.color, title="New Applicant")
+    em.add_field(name="Applicant Name", value=str(ctx.author), inline=False)
+    em.add_field(name="Age", value=age, inline=False)
+    em.add_field(name="Gender", value=gender, inline=False)
+    em.add_field(name="Country", value=country, inline=False)
+    em.add_field(name="Town Hall", value=townhall, inline=False)
+    em.set_image(url=screenshot.url)
+    admin = discord.utils.get(ctx.guild.roles, name='ADMIN').mention
+    co = discord.utils.get(ctx.guild.roles, name='Co-Leader').mention
+    await ctx.send(f"{admin} {co}", embed=em)
